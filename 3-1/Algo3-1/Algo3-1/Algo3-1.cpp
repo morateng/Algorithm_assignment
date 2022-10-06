@@ -57,14 +57,28 @@ void bino_dyn_1d(int n, int k) {
 		if (i < k) min = i;
 		else min = k;
 		//아래를 완성하시오
-		
+		for (int j = 0; j <= min; j++) {
+			if (j ==0 || j==i)
+			{
+				B1[j] = 1;
+			}
+			else {
+				cur = B1[j];
+				B1[j] = prev + B1[j];
+				prev = cur;
+			}
+		}
 	}
 }
 
 void path(int P[][MAX_VERTICES], int q, int r)
 {
 	//아래를 완성하시오
-
+	if (P[q][r] != -1) {
+		path(P ,q, P[q][r]);
+		printf("v%d, ", P[q][r]);
+		path(P, P[q][r], r);
+	}
 }
 int main() {
 	printf("binomail coefficient\n");
@@ -159,7 +173,38 @@ int main() {
 	return 0;
 }
 /*실제출력
+binomail coefficient
+Enter positive integer N(<=100): 50
+Enter positive integer k(<=100): 8
+Binomial recursive     : 536878650
+		time = 1 s
+Fibonacci dynamic prog.: 536878650
+		time = 0 s
 
+Fibonacci dynamic prog. using one dimensional array: 536878650
+		time = 0 s
+
+floyd shortest path
+W:
+  0  1  -  1  5
+  9  0  3  2  -
+  -  -  0  4  -
+  -  -  2  0  3
+  3  -  -  -  0
+v4에서 v2로 가는 최단경로는 v4, v0, v3, v2
+
+D:
+  0  1  3  1  4
+  8  0  3  2  5
+ 10 11  0  4  7
+  6  7  2  0  3
+  3  4  6  4  0
+P:
+ -1 -1  3 -1  3
+  4 -1 -1 -1  3
+  4  4 -1 -1  3
+  4  4 -1 -1 -1
+ -1  0  3  0 -1
 
 */
 /*예시 출력
