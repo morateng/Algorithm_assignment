@@ -13,7 +13,11 @@ void order(int i, int j, int P[][SIZE]) {
 		printf("A%d ", i);
 	else {
 		//아래를 완성하시오
-
+		k = P[i][j];
+		printf("(");
+		order(i, k, P);
+		order(k + 1, j, P);
+		printf(")");
 	}
 }
 int minmult(int n, const int d[], int P[][SIZE]) {
@@ -29,8 +33,13 @@ int minmult(int n, const int d[], int P[][SIZE]) {
 			j = i + diagonal;
 			min = INT_MAX;
 			//아래를 완성하시오
-
-
+			for (k = i; k <= j - 1; k++) {
+				tmp = M[i][k] + M[k + 1][j] + d[i - 1] * d[k] * d[j];
+				if (tmp < min) {
+					min = tmp;
+					min_k = k;
+				}
+			}
 
 			M[i][j] = min;
 			P[i][j] = min_k;
@@ -76,9 +85,12 @@ void obst(int p[], int q[], int cost[][SIZE], int root[][SIZE], int weight[][SIZ
 			min = INT_MAX;
 			minpos = 0;
 			//아래를 완성하시오.
-
-
-
+			for (k = i + 1; k <= j; k++) {
+				if (cost[i][k - 1] + cost[k][j] < min) {
+					min = cost[i][k - 1] + cost[k][j];
+					minpos = k;
+				}
+			}
 
 			cost[i][j] = weight[i][j] + min;
 			root[i][j] = minpos;
@@ -93,7 +105,8 @@ void order_obst(int i, int j, int root[][SIZE], const char* keys[]) {
 			i, j, root[i][j], keys[root[i][j]], i, root[i][j] - 1, root[i][j], j);
 		printf("\n");
 		//아래를 완성하시오.
-
+		order_obst(i, root[i][j] - 1, root, keys);
+		order_obst(root[i][j], j, root, keys);
 
 	}
 }
@@ -122,7 +135,56 @@ int main() {
 }
 /*실제출력
 
+문제 14.
+minulut:1320
+optimal oder:((A1 (A2 (A3 A4 )))A5 )
 
+문제 24.
+T00: weight=0, cost=0, root=0
+T01: weight=5, cost=5, root=1
+T11: weight=0, cost=0, root=0
+T12: weight=15, cost=15, root=2
+T22: weight=0, cost=0, root=0
+T23: weight=5, cost=5, root=3
+T33: weight=0, cost=0, root=0
+T34: weight=35, cost=35, root=4
+T44: weight=0, cost=0, root=0
+T45: weight=5, cost=5, root=5
+T55: weight=0, cost=0, root=0
+T56: weight=35, cost=35, root=6
+T66: weight=0, cost=0, root=0
+T02: weight=20, cost=25, root=2
+T13: weight=20, cost=25, root=2
+T24: weight=40, cost=45, root=4
+T35: weight=40, cost=45, root=4
+T46: weight=40, cost=45, root=6
+T03: weight=25, cost=35, root=2
+T14: weight=55, cost=80, root=4
+T25: weight=45, cost=55, root=4
+T36: weight=75, cost=120, root=4
+T04: weight=60, cost=95, root=4
+T15: weight=60, cost=90, root=4
+T26: weight=80, cost=130, root=4
+T05: weight=65, cost=105, root=4
+T16: weight=95, cost=165, root=4
+T06: weight=100, cost=180, root=4
+cost=180
+T06: root:4, key:IF, left subtree:T0,3, right subtree:T4,6
+T03: root:2, key:ELSE, left subtree:T0,1, right subtree:T2,3
+T01: root:1, key:CASE, left subtree:T0,0, right subtree:T1,1
+T23: root:3, key:END, left subtree:T2,2, right subtree:T3,3
+T46: root:6, key:THEN, left subtree:T4,5, right subtree:T6,6
+T45: root:5, key:OF, left subtree:T4,4, right subtree:T5,5
+
+문제 34. n개의 행렬 A1, A2, ... An을 곱하는 가능한 모든경우의 수를 구하는 공식은 카탈란 수로 Cn = (2n)!/n!(n+1)! 이다.
+	n=4일때 n-1의 값인 3을 카탈란수에 대입하면 6!/3!*4! = 5 이다.
+	가능한 조합은
+	A1(A2(A3 A4))
+	A1((A2 A3) A4)
+	((A1 A2) A3) A4
+	(A1 (A2 A3)) A4
+	(A1 A2)(A3 A4)
+	으로 5가지이다.
 */
 /*예시 출력
 문제 14.
