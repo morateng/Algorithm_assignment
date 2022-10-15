@@ -1,20 +1,58 @@
-﻿// MidPractice.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿#include <stdio.h>
+
+int binsearch(int low, int high,int x, int S[]) {
+	int mid;
+	if (low > high) {
+		return 0;
+	}
+	else                                        // 이분검색 순환호출 알고리즘
+	{
+		mid = (low + high) / 2;
+		if (x==S[mid])
+		{
+			return mid;
+		}
+		else if (x < S[mid])
+		{
+			return binsearch(low, mid - 1, x, S);
+		}
+		else
+		{
+			return binsearch(mid + 1, high, x, S);
+		}
+	}
+}
 //
+//void merge(int list[], int left, int mid, int right) {
+//	int i, j, k, l;
+//	i = left, j = mid + 1, k = left;
+//
+//	while (i<=mid && j<=right)
+//	{
+//		if (list[i]<=list[j])
+//		{
+//			
+//		}
+//	}
+//}
 
-#include <iostream>
-
-int main()
-{
-    std::cout << "Hello World!\n";
+void merge_sort(int list[], int left, int right) {
+	int mid;
+	if (left < right) {
+		mid = (left + right) / 2;
+		merge_sort(list, left, mid);
+		merge_sort(list, mid + 1, right);
+		//merge(list, left, mid, right);
+	}
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+int main(void) {
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	/*int arr[6] = { 1, 2, 3, 4, 5, 6 };
+
+	int s =binsearch(0, 5, 2, arr);
+
+	printf("%d", s);*/
+
+
+}
